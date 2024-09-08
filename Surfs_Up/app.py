@@ -12,10 +12,10 @@ from flask import Flask, jsonify
 #################################################
 
 engine = create_engine("sqlite:///../Resources/hawaii.sqlite")
-# reflect an existing database into a new model
+# Reflect an existing database into a new model
 Base = automap_base()
 
-# reflect the tables
+# Reflect the tables
 Base.prepare(autoload_with=engine)
 
 # Save references to each table
@@ -97,7 +97,7 @@ def tobs():
 @app.route("/api/v1.0/<start>/<end>")
 def start_date(start=None, end=None):
 
-    # create a Select statement
+    # Create a select statement
     sel = [func.min(measurement.tobs), func.avg(
         measurement.tobs), func.max(measurement.tobs)]
     if not end:
@@ -108,7 +108,7 @@ def start_date(start=None, end=None):
         temps = list(np.ravel(results))
         return jsonify(temps)
 
-    # calculate the minimum. maxmimum, and max temperatures
+    # Calculate the minimum. maxmimum, and max temperatures
     start = dt.datetime.strptime(start, "%Y%m%d")
     end = dt.datetime.strptime(end, "%Y%m%d")
     results = session.query(*sel).\
